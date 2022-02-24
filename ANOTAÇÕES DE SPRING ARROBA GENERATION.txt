@@ -1,0 +1,12 @@
+@Entiti
+
+@Table - nome da tabela 
+
+@ID - Chave de tabela
+
+@Generation Value - Gere o valor autoincrement
+
+@Column - Renomeia o nome no banco
+
+mappedBy = referenciador
+
