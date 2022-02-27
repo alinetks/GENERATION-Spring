@@ -8,5 +8,13 @@
 
 @Column - Renomeia o nome no banco
 
-mappedBy = referenciador
+mappedBy = referenciador de objeto
+
+
+consulta preço inicial e preço final, e aparecer o que estiver entre (BEETWEN)
+
+consulta que busque por nome e laboratorio
+
+
+
 

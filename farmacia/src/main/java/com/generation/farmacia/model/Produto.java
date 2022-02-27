@@ -16,34 +16,37 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "tb_produtos")
+@Table(name = "tb_produto")
 public class Produto {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //ela autoincrementa o ID
+	
+	@Id //primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@NotBlank(message = "O campo nome é obrigatório") //não permite que o campo seja vazio | recomendado para String
+	
+	@NotBlank(message = "O atributo nome é obrigatório")
 	private String nome;
-
-	@NotBlank(message = "O campo descrição é obrigatório") //não permite que o campo seja vazio | recomendado para String
+	
+	@NotBlank(message = "O atributo é obrigatório.")
 	private String descricao;
-
+	
 	private int quantidade;
-
+	
+	@NotBlank(message = "O atributo é obrigatório.")
 	private String laboratorio;
-
-	@JsonFormat(shape = JsonFormat.Shape.STRING) //altera o formato para dois números depois do ponto (ex. 1.00)
-	@NotNull(message = "Preço é obrigatório!") //não permite campo nulo | recomendado para número
-	@Positive(message = "Digite um valor maior do que zero") //informa que o número tem que ser positivo
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	@NotNull(message = "O atributo é obrigatorio")
+	@Positive(message = "O atributo tem que ser um valor positivo.")
 	private BigDecimal preco;
-
+	
 	private String foto;
 	
 	@ManyToOne
 	@JsonIgnoreProperties("produto")
 	private Categoria categoria;
 
+	// inicio dos Getts	
+	
 	public Long getId() {
 		return id;
 	}
@@ -108,5 +111,6 @@ public class Produto {
 		this.categoria = categoria;
 	}
 	
+
 
 }

@@ -17,18 +17,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name="tb_categoria")
 public class Categoria {
 	
-	@Id
+	@Id//foreign key
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@NotBlank(message="O campo categoria é obrigatório")
+	
+	@NotBlank(message = "Atributo obrigatório.")
 	private String categoria;
-
+	
+	@NotBlank(message = "Atributo obrigatório.")
 	private String descricao;
-
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)//estende a ação a todos
 	@JsonIgnoreProperties("categoria")
-	private List<Produto>produto;
+	private List<Produto> produto;
+	
+	// inicio dos Getts	
 
 	public Long getId() {
 		return id;
@@ -61,5 +64,8 @@ public class Categoria {
 	public void setProduto(List<Produto> produto) {
 		this.produto = produto;
 	}
-
+	
+	
+	
+	
 }

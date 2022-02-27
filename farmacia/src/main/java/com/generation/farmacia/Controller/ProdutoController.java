@@ -51,6 +51,26 @@ public class ProdutoController {
 		return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoringCase(nome));
 	}
 	
+	@GetMapping("/nomelab/{nome}~{laboratorio}")
+	public ResponseEntity<List<Produto>> findByNomeLaboratorioProduto (@PathVariable String nome, @PathVariable String laboratorio){
+		return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoringCaseAndLaboratorioContainingIgnoringCase(nome,laboratorio));
+	}
+	
+	@GetMapping("/maior/{preco}")
+	public ResponseEntity<List<Produto>> findByMaior(@PathVariable BigDecimal preco){
+		return ResponseEntity.ok(produtoRepository.findAllByPrecoGreaterThanOrderByPreco(preco));	
+	}
+	
+	@GetMapping("/menor/{preco}")
+	public ResponseEntity<List<Produto>> findByMenor(@PathVariable BigDecimal preco){
+		return ResponseEntity.ok(produtoRepository.findAllByPrecoLessThanOrderByPreco(preco));	
+	}
+	
+	@GetMapping("/preco/{preco1}-{preco2}")
+	public ResponseEntity<List<Produto>> getByEntre(@PathVariable BigDecimal preco1, @PathVariable BigDecimal preco2){
+		return ResponseEntity.ok(produtoRepository.findByPrecoBetweenOrderByPreco(preco1, preco2));
+	}
+	
 	@PostMapping
 	public ResponseEntity<Produto> postProduto(@Valid @RequestBody Produto produto) {
 		if(categoriaRepository.existsById(produto.getCategoria().getId()))
@@ -58,35 +78,23 @@ public class ProdutoController {
 		
 		return ResponseEntity.badRequest().build();
 	}
-
+	
 	@PutMapping
 	public ResponseEntity<Produto> putProduto(@Valid @RequestBody Produto produto){
 		if (categoriaRepository.existsById(produto.getCategoria().getId())) {
 			return produtoRepository.findById(produto.getId())
 					.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto)))
-		.orElse(ResponseEntity.notFound().build());
-		} else {
-			return ResponseEntity.badRequest().build();
-		}	
+		.orElse(ResponseEntity.notFound().build());} 
+		else {return ResponseEntity.badRequest().build();}	
 	}
+	
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deletePostagem(@PathVariable Long id) {
+	public ResponseEntity<Object> deleteProduto(@PathVariable Long id) {
 		return produtoRepository.findById(id).map(resposta -> {
-			produtoRepository.deleteById(id); return ResponseEntity.noContent().build();
-		}) .orElse(ResponseEntity.notFound().build());
-	}
-	
-	
-	@GetMapping("/preco/{preco1}-{preco2}")
-	public ResponseEntity<List<Produto>> getByPreco(@PathVariable BigDecimal preco1, @PathVariable BigDecimal preco2){
-		return ResponseEntity.ok(produtoRepository.findByPrecoBetween(preco1, preco2));
-	}
-	
-	
-	@GetMapping("/nomelab/{nome}-{laboratorio}")
-	public ResponseEntity<List<Produto>> findByNomeLaboratorioProduto (@PathVariable String nome, @PathVariable String laboratorio){
-		return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoringCaseAndLaboratorioContainingIgnoringCase(nome,laboratorio));
+			produtoRepository.deleteById(id); 
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();}) 
+			.orElse(ResponseEntity.notFound().build());
 	}
 	
 

@@ -13,7 +13,11 @@ public interface ProdutoRepository extends JpaRepository <Produto, Long>{
 	
 	public List<Produto> findAllByNomeContainingIgnoringCase (String nome);
 	
-	public List<Produto> findByPrecoBetween(BigDecimal preco1, BigDecimal preco2);
+	public List<Produto> findAllByPrecoLessThanOrderByPreco(BigDecimal preco);
+	
+	public List<Produto> findAllByPrecoGreaterThanOrderByPreco(BigDecimal preco);
+	
+	public List<Produto> findByPrecoBetweenOrderByPreco(BigDecimal preco1, BigDecimal preco2);
 	
 	public List<Produto> findAllByNomeContainingIgnoringCaseAndLaboratorioContainingIgnoringCase (String nome, String laboratorio);
 
